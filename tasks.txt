@@ -1,0 +1,3 @@
+[In Home Component]
+Create Featured Products Component and Its subcomponents (with services and needed data)
+Create Recent Products Component and Its subcomponents (with services and needed data)
