@@ -23,7 +23,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-1.jpg',
         rating: 5,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'black',
+        size: 's'
       },
       {
         id: 2,
@@ -32,7 +34,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-2.jpg',
         rating: 4.5,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'white',
+        size: 'm',
       },
       {
         id: 3,
@@ -41,7 +45,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-3.jpg',
         rating: 3.5,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'black',
+        size: 's'
       },
       {
         id: 4,
@@ -50,7 +56,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-4.jpg',
         rating: 3,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'white',
+        size: 'm'
       },
       {
         id: 5,
@@ -59,7 +67,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-5.jpg',
         rating: 5,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'black',
+        size: 's'
       },
       {
         id: 6,
@@ -68,7 +78,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-6.jpg',
         rating: 4.5,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'white',
+        size: 'm',
       },
       {
         id: 7,
@@ -77,7 +89,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-7.jpg',
         rating: 3.5,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'black',
+        size: 's'
       },
       {
         id: 8,
@@ -86,7 +100,9 @@ export class RecentService {
         priceDiscount: this.defaultPrice,
         imageUrl: '/assets/img/product-8.jpg',
         rating: 3,
-        ratingCount: this.defaultRating
+        ratingCount: this.defaultRating,
+        color: 'black',
+        size: 's'
       },
     ];
   }

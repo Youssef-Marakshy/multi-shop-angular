@@ -6,4 +6,6 @@ export interface ShopProduct {
   imageUrl: string;
   rating: number;
   ratingCount: number
+  size: string;
+  color: string;
 }

@@ -1,0 +1,7 @@
+# NPM Packages
+node_modules
+package-lock.json
+
+# Cache stuff
+.vscode
+.angular

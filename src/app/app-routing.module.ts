@@ -8,16 +8,16 @@ import { HomeComponent } from './components/views/home/home.component';
 import { ShopComponent } from './components/views/shop/shop.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'shop', component: ShopComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent },
-  { path: 'contact', component: ContactComponent },
-  { path: 'detail', component: DetailComponent },
+  { path: '', component: HomeComponent},
+  { path: 'shop', component: ShopComponent},
+  { path: 'cart', component: CartComponent},
+  { path: 'checkout', component: CheckoutComponent},
+  { path: 'contact', component: ContactComponent},
+  { path: 'detail', component: DetailComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

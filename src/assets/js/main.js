@@ -59,8 +59,9 @@
         }
     });
 
-
+    
     // Related carousel
+ setInterval(_ => { // TODO: def. find another way
     $('.related-carousel').owlCarousel({
         loop: true,
         margin: 29,
@@ -82,8 +83,9 @@
             }
         }
     });
-
-
+ }, 5000)
+       
+       
     // Product Quantity
     $('.quantity button').on('click', function () {
         var button = $(this);
