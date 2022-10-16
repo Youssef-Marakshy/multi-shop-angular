@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Order } from '../interfaces/order';
-import { ShopProduct } from '../interfaces/product';
+import { Product } from '../interfaces/product';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class CartService {
   order: Order;
   constructor() {
@@ -20,7 +19,7 @@ export class CartService {
     }
   }
 
-  addToCart(product: ShopProduct, quantity: number = 1) {
-    this.order.addProduct(product, quantity);
+  addToCart(product: Product) {
+    this.order.addProduct(product);
   }
 }

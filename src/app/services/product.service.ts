@@ -1,139 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ShopProduct } from '../interfaces/product';
+import { environment } from 'src/environments/environment';
 import { PriceRange } from '../interfaces/price-range';
+import { Product } from '../interfaces/product';
+
 @Injectable({
   providedIn: 'root',
 })
-
 export class ProductService {
-  defaultName: string = "Product Name Goes Here"
-  defaultRating: number = 99;
-  defaultPrice: number = 123.00;
-  products: Array<ShopProduct> = [
-    {
-      id: 1,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-1.jpg',
-      rating: 5,
-      ratingCount: this.defaultRating,
-      color: 'black',
-      size: 's'
-    },
-    {
-      id: 2,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-2.jpg',
-      rating: 4.5,
-      ratingCount: this.defaultRating,
-      color: 'white',
-      size: 'm',
-    },
-    {
-      id: 3,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-3.jpg',
-      rating: 3.5,
-      ratingCount: this.defaultRating,
-      color: 'black',
-      size: 's'
-    },
-    {
-      id: 4,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-4.jpg',
-      rating: 3,
-      ratingCount: this.defaultRating,
-      color: 'white',
-      size: 'm'
-    },
-    {
-      id: 5,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-5.jpg',
-      rating: 5,
-      ratingCount: this.defaultRating,
-      color: 'black',
-      size: 's'
-    },
-    {
-      id: 6,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-6.jpg',
-      rating: 4.5,
-      ratingCount: this.defaultRating,
-      color: 'white',
-      size: 'm',
-    },
-    {
-      id: 7,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-7.jpg',
-      rating: 3.5,
-      ratingCount: this.defaultRating,
-      color: 'black',
-      size: 's'
-    },
-    {
-      id: 8,
-      name: this.defaultName,
-      price: this.defaultPrice,
-      priceDiscount: this.defaultPrice,
-      imageUrl: '/assets/img/product-8.jpg',
-      rating: 3,
-      ratingCount: this.defaultRating,
-      color: 'black',
-      size: 's'
-    }
-  ]
-  detailProduct: ShopProduct = this.getRandomProduct();
-  constructor(private httpClient: HttpClient) {
-
-  }
-
-  public setDetailProduct(detailProduct?: ShopProduct): void {
-    this.detailProduct = detailProduct || this.getRandomProduct();
-    console.log('Product Detail: ' + this.detailProduct.name);
-  }
-
-  public getDetailProduct(): ShopProduct {
-    return this.detailProduct;
-  }
-
-  public getRandomProduct(): ShopProduct {
-    return this.products[Math.floor(Math.random() * this.products.length)];
-  }
-
-  public getFeaturedProducts(): Array<ShopProduct> {
-    return this.products;
-  }
-
-  public getProductsWithout(product: ShopProduct) {
-    return this.products.filter(p => p != product);
-  }
+  constructor(private httpClient: HttpClient) {}
 
   getProductsWithFilter(
+    products: Array<Product>,
     sizes: Array<string>,
     colors: Array<string>,
     priceRanges: Array<PriceRange>,
     page: number = 0,
     pageSize: number = 9
   ) {
-    let products = this.products.filter((x) => {
+    products = products.filter((x) => {
       return (
         this.filterSize(sizes, x) &&
         this.filterColor(colors, x) &&
@@ -144,11 +29,12 @@ export class ProductService {
   }
 
   getProductsCountWithFilter(
+    products: Array<Product>,
     sizes: Array<string>,
     colors: Array<string>,
     priceRanges: Array<PriceRange>
   ): number {
-    let products = this.products.filter((x) => {
+    products = products.filter((x) => {
       return (
         this.filterSize(sizes, x) &&
         this.filterColor(colors, x) &&
@@ -158,15 +44,15 @@ export class ProductService {
     return products.length;
   }
 
-  filterSize(sizes: Array<string>, product: ShopProduct): boolean {
+  filterSize(sizes: Array<string>, product: Product): boolean {
     if (sizes.length == 0) return true;
     return sizes.includes(product.size) || sizes.includes('');
   }
-  filterColor(colors: Array<string>, product: ShopProduct): boolean {
+  filterColor(colors: Array<string>, product: Product): boolean {
     if (colors.length == 0) return true;
     return colors.includes(product.color) || colors.includes('');
   }
-  filterPrices(priceRanges: Array<PriceRange>, product: ShopProduct): boolean {
+  filterPrices(priceRanges: Array<PriceRange>, product: Product): boolean {
     if (priceRanges.length == 0) return true;
     for (let i = 0; i < priceRanges.length; i++)
       if (
@@ -176,5 +62,17 @@ export class ProductService {
       )
         return true;
     return false;
+  }
+
+  getProductsByType(type: string) {
+    return this.httpClient.get(
+      `${environment.APIUrl}products/${
+        type === 'recent' ? 'getRecent' : 'getFeatured'
+      }`
+    );
+  }
+
+  getProducts() {
+    return this.httpClient.get(`${environment.APIUrl}products/`);
   }
 }

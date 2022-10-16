@@ -1,22 +1,37 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ShopProduct } from 'src/app/interfaces/product';
-import { CartService } from 'src/app/services/cart.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
+import { Product } from 'src/app/interfaces/product';
+import { CartService } from 'src/app/services/cart.service';
+declare const $: any;
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+  styleUrls: ['./detail.component.css'],
 })
 export class DetailComponent implements OnInit {
-  alsoLikeProducts: Array<ShopProduct> = [];
   productQuantity: number = 1;
-  detailProduct: ShopProduct = {} as ShopProduct;
-  ratingStatement: String = '<div class="text-primary mr-2">';
-  constructor(private cartService: CartService, private productService: ProductService) {}
-  
+  detailProduct: Product = {} as Product;
+  alsoLikeProducts: Array<Product> = [];
+  id: string;
+  constructor(private route: ActivatedRoute, private productService: ProductService, private cartService: CartService, private router: Router) {
+    this.id = this.route.snapshot.paramMap.get('id') ?? '';
+  }
+
   ngOnInit(): void {
-    this.setProduct(this.productService.getDetailProduct());
+    // this.runJqueryForCarousel();
+    this.productService.getProducts().subscribe((data: any) => {
+      this.alsoLikeProducts = data.data;
+      this.detailProduct = this.alsoLikeProducts.filter(p => p._id.toString() == this.id)[0];
+      this.alsoLikeProducts = this.alsoLikeProducts.filter(p => p._id.toString() !== this.id);
+    });
+    this.runJqueryForCarousel();
+    // console.log(this.id);
+  }
+
+  loadProduct(prodID: number) {
+    this.router.navigate(['./detail', prodID.toString()]).then(page => { window.location.reload(); });
   }
 
   public decProduct ():void {
@@ -25,28 +40,32 @@ export class DetailComponent implements OnInit {
   public incProduct ():void {
     this.productQuantity += 1;
   }
+
   public addToCart () {
-    this.cartService.addToCart(this.detailProduct, this.productQuantity);
+    // this.cartService.addToCart(this.detailProduct, this.productQuantity);
   }
 
-  public refreshProducts():void {
-    this.alsoLikeProducts = this.productService.getProductsWithout(this.detailProduct);
-  }
-
-  public setProduct(product: ShopProduct):void {
-    this.detailProduct = product;
-    this.refreshProducts();
-    this.generateRating();
-  }
-
-  private generateRating(): void { // TODO: Enhance later into an official component
-    let i = 0;
-    for (i = 0; i < this.detailProduct.rating - 0.5; i++) this.ratingStatement += '<small class="fa fa-star"></small>';
-    if (this.detailProduct.rating - i == 0.5) {
-      this.ratingStatement += '<small class="fa fa-star-half-alt"></small>';
-      i += 1;
-    }
-    for (; i < 5; i++) this.ratingStatement += '<small class="far fa-star"></small>';
-    this.ratingStatement += `</div><small class="pt-1">(${this.detailProduct.ratingCount})</small>`
+  runJqueryForCarousel() {
+    $('.related-carousel').owlCarousel({
+      loop: true,
+      margin: 29,
+      nav: false,
+      autoplay: true,
+      smartSpeed: 1000,
+      responsive: {
+          0:{
+              items:1
+          },
+          576:{
+              items:2
+          },
+          768:{
+              items:3
+          },
+          992:{
+              items:4
+          }
+      }
+    });
   }
 }

@@ -17,11 +17,24 @@
             class="btn btn-sm btn-light dropdown-toggle"
             data-toggle="dropdown"
           >
-            My Account
+            {{
+              authService.hasLoginData() ? authService.getName() : "My Account"
+            }}
           </button>
-          <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item" type="button">Sign in</button>
-            <button class="dropdown-item" type="button">Sign up</button>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            *ngIf="!authService.hasLoginData()"
+          >
+            <a class="dropdown-item" routerLink="login">Sign in</a>
+            <a class="dropdown-item" routerLink="register">Sign up</a>
+          </div>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            *ngIf="authService.hasLoginData()"
+          >
+            <button class="dropdown-item" (click)="authService.logOut()">
+              Logout
+            </button>
           </div>
         </div>
         <div class="btn-group mx-2">
@@ -54,20 +67,20 @@
         </div>
       </div>
       <div class="d-inline-flex align-items-center d-block d-lg-none">
-        <a href="" class="btn px-0">
-          <i class="fas fa-heart text-primary"></i>
+        <a href="" class="btn px-0 ml-2">
+          <i class="fas fa-heart text-dark"></i>
           <span
-            class="badge text-secondary border border-secondary rounded-circle"
+            class="badge text-dark border border-dark rounded-circle"
             style="padding-bottom: 2px"
-            >{{ likeService.likedProducts.length }}</span
+            >0</span
           >
         </a>
-        <a href="" class="btn px-0 ml-3">
-          <i class="fas fa-shopping-cart text-primary"></i>
+        <a href="" class="btn px-0 ml-2">
+          <i class="fas fa-shopping-cart text-dark"></i>
           <span
-            class="badge text-secondary border border-secondary rounded-circle"
+            class="badge text-dark border border-dark rounded-circle"
             style="padding-bottom: 2px"
-            >{{ cartService.order.orderDetails.length }}</span
+            >0</span
           >
         </a>
       </div>
@@ -172,7 +185,6 @@
           <div class="navbar-nav mr-auto py-0">
             <a routerLink="" class="nav-item nav-link active">Home</a>
             <a routerLink="shop" class="nav-item nav-link">Shop</a>
-            <a routerLink="detail" class="nav-item nav-link">Shop Detail</a>
             <div class="nav-item dropdown">
               <a
                 href="#"
@@ -193,7 +205,7 @@
               <span
                 class="badge text-secondary border border-secondary rounded-circle"
                 style="padding-bottom: 2px"
-                >{{ likeService.likedProducts.length }}</span
+                >{{likeService.likedProducts.length}}</span
               >
             </a>
             <a href="" class="btn px-0 ml-3">

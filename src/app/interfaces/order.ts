@@ -1,22 +1,16 @@
-import { ShopProduct } from './product';
+import { Product } from './product';
 
 export class Order {
   orderDetails: Array<OrderDetail>;
   constructor() {
     this.orderDetails = [];
   }
-  addProduct(product: ShopProduct, quantity: number = 1) {
+  addProduct(product: Product) {
     let currentProduct = this.orderDetails.find(
-      (x) => x.product.id == product.id
+      (x) => x.product._id == product._id
     );
-    if (currentProduct != null) {
-      console.log('Product found: ' + quantity);
-      currentProduct.incQuantity(quantity);
-    }
-    else {
-      console.log('New Order: ' + quantity);
-      this.orderDetails.push(new OrderDetail(product, quantity));
-    }
+    if (currentProduct != null) currentProduct.incQuantity();
+    else this.orderDetails.push(new OrderDetail(product));
 
     localStorage.setItem('order', JSON.stringify(this));
   }
@@ -50,27 +44,27 @@ export class Order {
 }
 
 export class OrderDetail {
-  product: ShopProduct;
+  product: Product;
   quantity: number;
   price: number;
-  constructor(product: ShopProduct, quant:number = 1) {
+  constructor(product: Product) {
     this.product = product;
-    this.quantity = quant;
-    this.price = product.price - product.price * product.priceDiscount;
+    this.quantity = 1;
+    this.price = product.price - product.price * product.discount;
   }
 
-  incQuantity(number: number = 1) {
-    this.quantity += number;
+  incQuantity() {
+    this.quantity += 1;
     this.price =
       this.quantity *
-      (this.product.price - this.product.price * this.product.priceDiscount);
+      (this.product.price - this.product.price * this.product.discount);
   }
-  decQuantity(number: number = 1) {
+  decQuantity() {
     if (this.quantity >= 1) {
-      this.quantity -= number;
+      this.quantity -= 1;
       this.price =
         this.quantity *
-        (this.product.price - this.product.price * this.product.priceDiscount);
+        (this.product.price - this.product.price * this.product.discount);
     }
   }
 }

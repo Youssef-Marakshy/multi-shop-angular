@@ -1,11 +1,15 @@
-export interface ShopProduct {
-  id: number;
+export interface Product {
+  _id: number;
   name: string;
+  image: string;
+  category_id: string;
   price: number;
-  priceDiscount: number;
-  imageUrl: string;
+  discount: number;
   rating: number;
-  ratingCount: number
+  rating_count: number;
+  is_featured: boolean;
+  is_recent: boolean;
+  description: string;
   size: string;
   color: string;
 }
